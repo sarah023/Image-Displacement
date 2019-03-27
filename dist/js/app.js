@@ -118,8 +118,13 @@ sections.forEach(section => {
 
     //if a displacement image is loaded -> move it:
     if (displacementImage) {
-      displacementImage.x = currentX;
-      displacementImage.y = currentY;
+      // //move filters based purely on mouse movement (OPT. 1)
+      // displacementImage.x = currentX;
+      // displacementImage.y = currentY;
+      //move filters based on mouse movement PLUS add a small amount
+      //of movement without (OPT. 2)
+      displacementImage.x = displacementImage.x + 1 + diffX * 0.01;
+      displacementImage.y = displacementImage.y + 1 + diffY * 0.01;
       //change the rgbFilter based on mouse movement:
       rgbFilter.red = [diffX * 0.1, 0];
       rgbFilter.green = [0, diffY * 0.1];
