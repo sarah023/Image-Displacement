@@ -27,6 +27,8 @@ sections.forEach(section => {
   //make a new image/filters here:
   let image = null;
   let displacementImage = null;
+  //rgbFilter - [red], [green], [blue] - [across, down]
+  let rgbFilter = new PIXI.filters.RGBSplitFilter([20, 0], [0, 50], [0, 0]);
 
   //make a new loader:
   const loader = new PIXI.loaders.Loader();
@@ -35,6 +37,7 @@ sections.forEach(section => {
   loader.add('image', originalImageSource);
   //load in displacement image: (for displacement filter)
   //displacementImage sizes need to be either 512px x 512px or 1024px x 1024px
+  //has to be 2^ of something
   loader.add('displacement', './images/displacement3.jpg');
 
   //once the image has loaded -> do things:
@@ -59,7 +62,7 @@ sections.forEach(section => {
     image.anchor.x = 0.5;
     image.anchor.y = 0.5;
 
-    //displacement image sizing (optional)
+    //displacement image sizing (optional - can be any size)
     displacementImage.width = 300;
     displacementImage.height = 300;
     displacementImage.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.repeat;
@@ -68,7 +71,8 @@ sections.forEach(section => {
     image.filters = [
       // new PIXI.filters.BlurFilter(2, 5),
       // new PIXI.filters.NoiseFilter(0.2),
-      new PIXI.filters.DisplacementFilter(displacementImage, 20)
+      new PIXI.filters.DisplacementFilter(displacementImage, 10),
+      rgbFilter
     ];
 
     //http://pixijs.download/release/docs/PIXI.filters.BlurFilter.html
