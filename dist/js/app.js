@@ -28,7 +28,7 @@ sections.forEach(section => {
   let image = null;
   let displacementImage = null;
   //rgbFilter - [red], [green], [blue] - [across, down]
-  let rgbFilter = new PIXI.filters.RGBSplitFilter([20, 0], [0, 50], [0, 0]);
+  let rgbFilter = new PIXI.filters.RGBSplitFilter([0, 0], [0, 0], [0, 0]);
 
   //make a new loader:
   const loader = new PIXI.loaders.Loader();
@@ -84,12 +84,52 @@ sections.forEach(section => {
     app.stage.addChild(displacementImage);
 
     //*ADD MOVEMENT/TIMING*
-    app.ticker.add(() => {
-      //*rotation variation*
-      // image.rotation = image.rotation + 0.01;
-      //*displacementImage movement
-      displacementImage.x = displacementImage.x + 1;
-      displacementImage.y = displacementImage.y + 1;
-    });
+    // app.ticker.add(() => {
+    //   //*rotation variation*
+    //   // image.rotation = image.rotation + 0.01;
+    //   //*displacementImage movement
+    //   displacementImage.x = displacementImage.x + 1;
+    //   displacementImage.y = displacementImage.y + 1;
+    // });
   });
+
+  //*MOUSE MOVEMENT*
+  //animate where mouse is currently - and where its going to be:
+  let currentX = 0;
+  let currentY = 0;
+  let aimX = 0;
+  let aimY = 0;
+
+  section.addEventListener('mousemove', event => {
+    //move displacement filter based on mouse position:
+    aimX = event.pageX;
+    aimY = event.pageY;
+  });
+
+  //make an animation that adds 'tweening' to mouse movement
+  //softens the movement
+  const animate = () => {
+    //currentX/Y should move towards aimX/Y every frame:
+    const diffX = aimX - currentX;
+    const diffY = aimY - currentY;
+    //add some time between the animation:
+    currentX = currentX + diffX * 0.03;
+    currentY = currentY + diffY * 0.03;
+
+    //if a displacement image is loaded -> move it:
+    if (displacementImage) {
+      displacementImage.x = currentX;
+      displacementImage.y = currentY;
+      //change the rgbFilter based on mouse movement:
+      rgbFilter.red = [diffX * 0.1, 0];
+      rgbFilter.green = [0, diffY * 0.1];
+      rgbFilter.blue = [diffY * 0.01, diffX * 0.01];
+    }
+
+    //run an amination on every frame - recursive loop:
+    requestAnimationFrame(animate);
+  };
+
+  //load animation:
+  animate();
 });
