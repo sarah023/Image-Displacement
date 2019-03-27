@@ -1,6 +1,5 @@
-//1. loop over each section
-//2. select the image
-//3. replace with a canvas
+//http://pixijs.download/release/docs/index.html
+//https://pixijs.io/pixi-filters/docs/
 
 const sections = document.querySelectorAll('section');
 
@@ -29,6 +28,7 @@ sections.forEach(section => {
   let displacementImage = null;
   //rgbFilter - [red], [green], [blue] - [across, down]
   let rgbFilter = new PIXI.filters.RGBSplitFilter([0, 0], [0, 0], [0, 0]);
+  //https://pixijs.io/pixi-filters/docs/PIXI.filters.RGBSplitFilter.html
 
   //make a new loader:
   const loader = new PIXI.loaders.Loader();
