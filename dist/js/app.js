@@ -1,6 +1,5 @@
-//1. loop over each section
-//2. select the image
-//3. replace with a canvas
+//http://pixijs.download/release/docs/index.html
+//https://pixijs.io/pixi-filters/docs/
 
 const sections = document.querySelectorAll('section');
 
@@ -16,8 +15,8 @@ sections.forEach(section => {
   const app = new PIXI.Application({
     //add extra sizing around the images to ensure that the filters
     //cover the entire image
-    width: 600,
-    height: 800,
+    width: 800,
+    height: 1000,
     transparent: true
   });
 
@@ -29,6 +28,7 @@ sections.forEach(section => {
   let displacementImage = null;
   //rgbFilter - [red], [green], [blue] - [across, down]
   let rgbFilter = new PIXI.filters.RGBSplitFilter([0, 0], [0, 0], [0, 0]);
+  //https://pixijs.io/pixi-filters/docs/PIXI.filters.RGBSplitFilter.html
 
   //make a new loader:
   const loader = new PIXI.loaders.Loader();
@@ -38,7 +38,7 @@ sections.forEach(section => {
   //load in displacement image: (for displacement filter)
   //displacementImage sizes need to be either 512px x 512px or 1024px x 1024px
   //has to be 2^ of something
-  loader.add('displacement', './images/displacement3.jpg');
+  loader.add('displacement', './images/displacement1.jpg');
 
   //once the image has loaded -> do things:
   loader.load((loader, resources) => {
@@ -49,12 +49,12 @@ sections.forEach(section => {
 
     //set position - size + the middle of the respective width/height
     //image width is 400, so 200 is the midde/center, etc.
-    image.x = 100 + 200;
-    image.y = 100 + 300;
+    image.x = 100 + 300;
+    image.y = 100 + 400;
     //remember that extra sizing was allowed prior - so set back to the
     //correct image sizes.
-    image.width = 400;
-    image.height = 600;
+    image.width = 600;
+    image.height = 800;
     image.interactive = true;
     //for certain transitions, need to set the anchor point of
     //the image to the center.
@@ -63,15 +63,15 @@ sections.forEach(section => {
     image.anchor.y = 0.5;
 
     //displacement image sizing (optional - can be any size)
-    displacementImage.width = 300;
-    displacementImage.height = 300;
+    displacementImage.width = 800;
+    displacementImage.height = 800;
     displacementImage.texture.baseTexture.wrapMode = PIXI.WRAP_MODES.repeat;
 
     //*ADD FILTERS*
     image.filters = [
       // new PIXI.filters.BlurFilter(2, 5),
       // new PIXI.filters.NoiseFilter(0.2),
-      new PIXI.filters.DisplacementFilter(displacementImage, 10),
+      new PIXI.filters.DisplacementFilter(displacementImage, 80),
       rgbFilter
     ];
 
@@ -126,8 +126,8 @@ sections.forEach(section => {
       displacementImage.x = displacementImage.x + 1 + diffX * 0.01;
       displacementImage.y = displacementImage.y + 1 + diffY * 0.01;
       //change the rgbFilter based on mouse movement:
-      rgbFilter.red = [diffX * 0.1, 0];
-      rgbFilter.green = [0, diffY * 0.1];
+      rgbFilter.red = [diffX * 0.01, 0];
+      rgbFilter.green = [0, diffY * 0.01];
       rgbFilter.blue = [diffY * 0.01, diffX * 0.01];
     }
 
