@@ -38,7 +38,7 @@ sections.forEach(section => {
   //load in displacement image: (for displacement filter)
   //displacementImage sizes need to be either 512px x 512px or 1024px x 1024px
   //has to be 2^ of something
-  loader.add('displacement', './images/displacement1.jpg');
+  loader.add('displacement', './images/displacement4.jpg');
 
   //once the image has loaded -> do things:
   loader.load((loader, resources) => {
@@ -54,7 +54,7 @@ sections.forEach(section => {
     //remember that extra sizing was allowed prior - so set back to the
     //correct image sizes.
     image.width = 600;
-    image.height = 800;
+    image.height = 600;
     image.interactive = true;
     //for certain transitions, need to set the anchor point of
     //the image to the center.
@@ -123,8 +123,8 @@ sections.forEach(section => {
       // displacementImage.y = currentY;
       //move filters based on mouse movement PLUS add a small amount
       //of movement without (OPT. 2)
-      displacementImage.x = displacementImage.x + 1 + diffX * 0.01;
-      displacementImage.y = displacementImage.y + 1 + diffY * 0.01;
+      displacementImage.x = displacementImage.x + 1 + diffX * 0.03;
+      displacementImage.y = displacementImage.y + 1 + diffY * 0.03;
       //change the rgbFilter based on mouse movement:
       rgbFilter.red = [diffX * 0.01, 0];
       rgbFilter.green = [0, diffY * 0.01];

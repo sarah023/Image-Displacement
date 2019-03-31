@@ -1,3 +1,7 @@
+body {
+  background-color: black;
+}
+
 section {
   max-height: 500px;
   width: 500px;
@@ -6,14 +10,12 @@ section {
   justify-content: center;
   overflow: hidden;
   border-radius: 50%;
-
   position: fixed;
-  border-radius: 50%;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
 section img {
-  /* max-width: 600px; */
+  max-width: 500px;
 }
